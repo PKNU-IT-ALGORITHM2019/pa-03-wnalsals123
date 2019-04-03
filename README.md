@@ -16,4 +16,4 @@
 3. 기타 사항 
  : 퀵 소트 1번 피봇을 마지막 값으로 설정할 경우 스택 오버플로우가 발생
  
- ![result](./C:\Users/Ju/Desktop/what/LETSGITIT/pa-03-wnalsals123/p3/result.png)
+ ![result](./C:/Users/Ju/Desktop/what/LETSGITIT/pa-03-wnalsals123/p3/result.png)
