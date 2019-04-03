@@ -119,7 +119,7 @@ double merge(int *p, int randN, int reverN) {
 }
 
 void quick_sort(int *p, int left, int right, int qn) {
-	int i = left, j = right, temp, pivot, index;
+	int i = left, j = right, temp, pivot;
 	if (qn == 1)
 		pivot = p[right];
 	else if (qn == 2)
@@ -131,8 +131,7 @@ void quick_sort(int *p, int left, int right, int qn) {
 			i++;
 		while (p[j] > pivot)
 			j--;
-		if (i <= j)
-		{
+		if (i <= j)	{
 			temp = p[i];
 			p[i] = p[j];
 			p[j] = temp;
@@ -150,6 +149,71 @@ double quick(int *p, int randN, int reverN, int qn) {
 	make(randN, reverN);
 	start = clock();
 	quick_sort(p, 0, count - 1, qn);
+	end = clock();
+	return (double)(end - start) / (CLOCKS_PER_SEC);
+}
+
+void swap(int *a, int *b) {
+	int temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void downheap(int *po, int cur, int k){
+  int left, right, p;
+    while(cur < k) {
+      left = cur * 2 + 1;
+      right = cur * 2 + 2;
+      if (left >= k && right >= k) 
+		  break;
+      p = cur;
+      if (left < k && po[p] < po[left]) 
+		  p = left;
+      if (right < k && po[p] < po[right])
+		  p = right;
+      if (p == cur)
+		  break;
+      swap(&po[cur],&po[p]);
+      cur=p;
+    }
+}
+
+void heapify(int *po, int n){
+  for(int i = (n - 1)/2; i >= 0; i--)
+    downheap(po, i, n);
+}
+
+void heap_sort(int *po){
+  heapify(po, count);
+  for(int k = count - 1; k > 0; ){
+    swap(&po[0], &po[k]);
+    downheap(po, 0, k);
+    k--;
+  }
+}
+
+double heap(int *p, int randN, int reverN){
+	make(randN, reverN);
+	start = clock();
+	heap_sort(p);
+	end = clock();
+	return (double)(end - start) / (CLOCKS_PER_SEC);
+}
+
+int compare(const void *first, const void *second){
+	if (*(int*)first > *(int*)second)
+		return 1;
+	else if (*(int*)first < *(int*)second)
+		return -1;
+	else
+		return 0;
+}
+
+double library(int *p, int randN, int reverN){
+	make(randN, reverN);
+	start = clock();
+	qsort(p, count, sizeof(int), compare);
 	end = clock();
 	return (double)(end - start) / (CLOCKS_PER_SEC);
 }
@@ -207,6 +271,20 @@ void print() {
 	printf("%.3lf\t\t", quick(reN, 0, MID, 3));
 	printf("%.3lf\t\t", quick(raN, MAX, 0, 3));
 	printf("%.3lf\n", quick(reN, 0, MAX, 3));
+	printf("Heap\t\t");
+	printf("%.3lf\t\t", heap(raN, MIN, 0));
+	printf("%.3lf\t\t", heap(reN, 0, MIN));
+	printf("%.3lf\t\t", heap(raN, MID, 0));
+	printf("%.3lf\t\t", heap(reN, 0, MID));
+	printf("%.3lf\t\t", heap(raN, MAX, 0));
+	printf("%.3lf\n", heap(reN, 0, MAX));
+	printf("Library\t\t");
+	printf("%.3lf\t\t", library(raN, MIN, 0));
+	printf("%.3lf\t\t", library(reN, 0, MIN));
+	printf("%.3lf\t\t", library(raN, MID, 0));
+	printf("%.3lf\t\t", library(reN, 0, MID));
+	printf("%.3lf\t\t", library(raN, MAX, 0));
+	printf("%.3lf\n", library(reN, 0, MAX));
 }
 
 int main()
